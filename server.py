@@ -1,16 +1,25 @@
-# sample.py
+# server.py
 import falcon
 import json
- 
-class QuoteResource:
-  def on_get(self, req, resp):
+
+class Me:
+  def on_get(self, req, res):
     """Handles GET requests"""
-    quote = {
-      'quote': 'I\'ve always been more interested in the future than in the past.',
-      'author': 'Grace Hopper'
+    me = {
+      'name': 'Falcon API',
+      'age': '1 month old',
     }
-    resp.body = json.dumps(quote)
- 
+    res.body = json.dumps(me)
+
+class You:
+  def on_post(self, req, res):
+    """Handles POST requests"""
+    body = req.stream.read()
+    req_params = json.loads(body.decode('utf-8'))
+    res.body = json.dumps(req_params)
+
 api = falcon.API()
-api.add_route('/quote', QuoteResource())
+
+api.add_route('/myself', Me())
+api.add_route('/yourself', You())
 

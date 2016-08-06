@@ -16,7 +16,11 @@ class You:
     """Handles POST requests"""
     body = req.stream.read()
     req_params = json.loads(body.decode('utf-8'))
-    res.body = json.dumps(req_params)
+    you = {
+      name: req_params['name'],
+      age:  req_params['age'],
+    }
+    res.body = json.dumps(you)
 
 api = falcon.API()
 
